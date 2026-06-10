@@ -3,6 +3,11 @@ import {APP_FEATURES} from "../utils/data";
 import {useNavigate} from "react-router-dom";
 import "./LandingPage.css";
 import {LuSparkles} from 'react-icons/lu'
+import { Link } from "react-router-dom";
+import Modal from '../components/Modal'
+import Login from '../pages/Auth/Login'
+import SignUp from '../pages/Auth/SignUp'
+
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -94,6 +99,18 @@ const LandingPage = () => {
           </section>
         </div>
       </div>
+
+      <Modal isOpen={openAuthModal} onClose={()=>{
+          setOpenAuthModel(false)
+          setCurrentPage('login')
+        }}
+        hideHeader
+      >
+        <div className="">
+          {currentPage==="login" && (<Login setCurrentPage={setCurrentPage}/>)}
+          {currentPage==='signup' && (<SignUp setCurrentPage={setCurrentPage}/>)}
+        </div>
+      </Modal>
     </>
   );
 };

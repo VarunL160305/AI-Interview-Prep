@@ -10,8 +10,6 @@ import InterviewPrep from './pages/InterviewPrep/InterviewPrep'
 
 import {APP_FEATURES} from './utils/data'
 
-console.log(APP_FEATURES)
-
 const router=createBrowserRouter([
   {path:'/',element:<LandingPage/>},
   {path:'/login',element:<Login/>},

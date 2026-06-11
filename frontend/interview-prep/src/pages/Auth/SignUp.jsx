@@ -51,7 +51,18 @@ const SignUp = ({ setCurrentPage }) => {
 
     setError('')
 
-    //Tomorrow basic data send api catch works
+    //Tomorrow basic data send api catch works after completing some backend stuffs commit all changes
+    try{
+
+    }catch(err){
+      if(err.response && err.response.data.message){
+        setError(err.message.data.message)
+      }
+      else{
+        setError("Something went wrong. Please try again")
+      }
+    }
+
   }
 
   return (
@@ -98,7 +109,7 @@ const SignUp = ({ setCurrentPage }) => {
 
         <p className="text-center mt-3 mb-0 small">
           Already have an account?{" "}
-          <button type="button" className="btn btn-link p-0 text-decoration-none" onClick={() => setCurrentPage('login')}>
+          <button type="button" className="btn btn-link p-0 text-decoration-none" onClick={() => setCurrentPage('login')} style={{marginBottom:"5px"}}>
             Login
           </button>
         </p>

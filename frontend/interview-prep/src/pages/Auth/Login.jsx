@@ -22,7 +22,7 @@ const Login = ({ setCurrentPage }) => {
     const isValidPassword=validatePassword(userData.password)
     
     if(!isValidEmail && !isValidPassword){
-      setError('enter a valid email and password')
+      setError('Invalid email or password')
       return
     }
 
@@ -32,13 +32,24 @@ const Login = ({ setCurrentPage }) => {
     }
 
     if(!isValidPassword){
-      setError('enter a valid password')
+      setError('Invalid email or password')
       return
     }
 
     setError('')
 
-    //Tomorrow basic data send api catch works
+    //Tomorrow basic data send api catch works after completing som backend stuffs commit all changes
+    
+    try{
+
+    }catch(err){
+      if(err.response && err.response.data.message){
+        setError(err.message.data.message)
+      }
+      else{
+        setError("Something went wrong. Please try again")
+      }
+    }
   }
 
   return (
@@ -47,9 +58,11 @@ const Login = ({ setCurrentPage }) => {
         <h3 className="fs-4 fw-semibold text-dark">
           Welcome Back
         </h3>
+
         <p className="small text-secondary mt-1 mb-4">
           Please Enter your details to log in
         </p>
+
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
@@ -57,6 +70,7 @@ const Login = ({ setCurrentPage }) => {
             </label>
             <Input type="text" id="email" className="form-control" placeholder="abc@gmail.com" value={userData.email} onChange={(e) =>setUserData({...userData,email:e.target.value})}/>
           </div>
+
           <div className="mb-3">
             <label htmlFor="password" className="form-label">
               Password
@@ -67,14 +81,13 @@ const Login = ({ setCurrentPage }) => {
             )}
           </div>
 
-
           <button type="submit" className="btn btn-dark w-100">
             Login
           </button>
 
           <p className="text-center mt-3 mb-0">
             Don't have an account?{" "}
-            <button type="button" className="btn btn-link p-0 text-decoration-none" onClick={() => setCurrentPage("signup")}>
+            <button type="button" className="btn btn-link p-0 text-decoration-none" onClick={() => setCurrentPage("signup")} style={{marginBottom:"5px"}}>
               Sign Up
             </button>
           </p>

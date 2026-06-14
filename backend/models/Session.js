@@ -18,9 +18,14 @@ const sessionSchema=new mongoose.Schema({
         required:true
     },
     description:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Question"
-    }
+        type:String,
+    },
+    questions:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Question"
+        }
+    ]
 },{timestamps:true})
 
 module.exports=mongoose.model("Session",sessionSchema)

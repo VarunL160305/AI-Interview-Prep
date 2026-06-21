@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 import Input from '../../components/Inputs/Input'
 import { validateEmail,validatePassword } from '../../utils/helper'
+import { UserContext } from '../../context/userContext'
 
 const Login = ({ setCurrentPage }) => {
 
@@ -12,6 +14,8 @@ const Login = ({ setCurrentPage }) => {
   })
 
   const [error,setError]=useState(null)
+
+  const {updateUser}=useContext(UserContext)
 
   const navigate = useNavigate()
 
@@ -41,10 +45,20 @@ const Login = ({ setCurrentPage }) => {
     //Tomorrow basic data send api catch works after completing som backend stuffs commit all changes
     
     try{
+      const response=await axios.post("http://localhost:8000/auth/login",{
+        email:userData.email,
+        password:userData.password
+      })
 
+      const {token}=response.data
+      if(token){
+        localStorage.setItem('token',token)
+        updateUser(response.data)
+        navigate('/dashboard')
+      }
     }catch(err){
       if(err.response && err.response.data.message){
-        setError(err.message.data.message)
+        setError(err.response.data.message)
       }
       else{
         setError("Something went wrong. Please try again")

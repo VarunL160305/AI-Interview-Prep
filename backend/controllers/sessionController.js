@@ -50,7 +50,7 @@ module.exports.getSessionById=async (req,res) => {
 
 module.exports.getMySessions=async (req,res) => {
     try{
-        const session=await Session.findOne({user:req.user._id}).sort({createdAt:-1}).populate('questions')
+        const session=await Session.find({user:req.user._id}).sort({createdAt:-1}).populate('questions')
         res.status(200).json(session)
     }catch(err){
         res.status(500).json({success:false,message:"Server Error"})

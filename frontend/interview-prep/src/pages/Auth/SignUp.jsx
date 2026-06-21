@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import axios from "axios"
 
 import Input from '../../components/Inputs/Input'
 import ProfilePhotoSelector from '../../components/Inputs/ProfilePhotoSelector'
 import { validateEmail, validatePassword } from '../../utils/helper'
+import { UserContext } from '../../context/userContext'
+import uploadImage from '../../utils/uploadImage'
 
 const SignUp = ({ setCurrentPage }) => {
 
@@ -17,12 +21,14 @@ const SignUp = ({ setCurrentPage }) => {
 
   const navigate = useNavigate()
 
+  const {updateUser}=useContext(UserContext)
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     const isValidEmail=validateEmail(userData.email)
     const isValidPassword=validatePassword(userData.password)
 
-    const profilePicURL=""
+    let profilePicURL=""
         
     if(!userData.username && !isValidEmail && !isValidPassword){
       setError("enter a valid email, password and username")
@@ -53,10 +59,27 @@ const SignUp = ({ setCurrentPage }) => {
 
     //Tomorrow basic data send api catch works after completing some backend stuffs commit all changes
     try{
+      if(userData.profilePic){
+        const imgUploadResponse=await uploadImage(userData.profilePic)
+        profilePicURL=imgUploadResponse.imageUrl || ""
+      } 
 
+      const response=await axios.post("http://localhost:8000/auth/register",{
+        name:userData.username,
+        email:userData.email,
+        password:userData.password,
+        profilePic:profilePicURL
+      })
+
+      const {token}=response.data
+      if(token){
+        localStorage.setItem('token',token)
+        updateUser(response.data)
+        navigate('/dashboard')
+      }
     }catch(err){
       if(err.response && err.response.data.message){
-        setError(err.message.data.message)
+        setError(err.response.data.message)
       }
       else{
         setError("Something went wrong. Please try again")

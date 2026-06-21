@@ -7,6 +7,7 @@ import SignUp from './pages/Auth/SignUp'
 import LandingPage from './pages/LandingPage'
 import Dashboard from './pages/Home/DashBoard'
 import InterviewPrep from './pages/InterviewPrep/InterviewPrep'
+import UserProvider from "./context/userContext"
 
 import {APP_FEATURES} from './utils/data'
 
@@ -21,8 +22,11 @@ const router=createBrowserRouter([
 const App = () => {
   return (
     <>
-      <RouterProvider router={router}></RouterProvider>
-      <Toaster toastOptions={{className:"",style:{fontSize:"13px",},}}/></>
+      <UserProvider>
+        <RouterProvider router={router}></RouterProvider>
+        <Toaster toastOptions={{className:"",style:{fontSize:"13px",},}}/>
+      </UserProvider>
+    </>
   )
 }
 

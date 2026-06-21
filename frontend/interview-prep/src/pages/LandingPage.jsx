@@ -1,21 +1,32 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {APP_FEATURES} from "../utils/data";
 import {useNavigate} from "react-router-dom";
 import "./LandingPage.css";
 import {LuSparkles} from 'react-icons/lu'
 import { Link } from "react-router-dom";
+import { UserContext } from "../context/userContext";
+
 import Modal from '../components/Modal'
 import Login from '../pages/Auth/Login'
 import SignUp from '../pages/Auth/SignUp'
-
+import ProfileInfoCard from "../components/Cards/ProfileInfoCard";
 
 const LandingPage = () => {
   const navigate = useNavigate();
 
+  const {user}=useContext(UserContext)
+
   const [openAuthModal, setOpenAuthModel] = useState(false);
   const [currentPage, setCurrentPage] = useState("login");
 
-  const handleCTA = () => {};
+  const handleCTA = () => {
+    if(!user){
+      setOpenAuthModel(true)
+    }
+    else{
+      navigate("/dashboard")
+    }
+  };
 
   return (
     <>
@@ -25,9 +36,9 @@ const LandingPage = () => {
             <div className="logo-text">
               Interview Prep AI
             </div>
-            <button className="signup-btn" onClick={() => setOpenAuthModel(true)}>
+            {user?(<ProfileInfoCard/>):(<button className="signup-btn" onClick={() => setOpenAuthModel(true)}>
               Login / Sign Up
-            </button>
+            </button>)}
           </header>
           <div className="row align-items-center hero-row">
             <div className="col-lg-6">

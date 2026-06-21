@@ -4,6 +4,11 @@ const Question=require('../models/Question')
 module.exports.createSession=async (req,res) => {
     try{
         const {role,experience,topicsToFocus,description,questions}=req.body
+        if(parseInt(experience)<0 || parseInt(experience)>50){
+            return res.status(400).json({
+                message:"Experience must be between 0 and 50 years"
+            })
+        }
         const session=await Session.create({
             user:req.user._id,
             role,

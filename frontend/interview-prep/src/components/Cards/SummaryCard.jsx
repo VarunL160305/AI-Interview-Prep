@@ -43,7 +43,7 @@ const SummaryCard = ({colors,role,description,experience,topicsToFocus,questions
                 <div className="card-body pt-3">
                     <div className="d-flex flex-wrap gap-2 mb-3">
                         <span className="badge text-dark border">
-                            Experience: {experienceDuration>1?`${experienceDuration}Years`:`${experienceDuration}Year`}
+                            Experience: {experienceDuration>1?`${experienceDuration} Years`:`${experienceDuration} Year`}
                         </span>
 
                         <span className="badge text-dark border">

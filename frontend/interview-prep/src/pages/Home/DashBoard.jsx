@@ -7,6 +7,8 @@ import axios from 'axios'
 
 import {CARD_BG} from "../../utils/data"
 import SummaryCard from "../../components/Cards/SummaryCard"
+import Modal from "../../components/Modal"
+import CreateSessionForm from "../Home/CreateSessionForm"
 
 const Dashboard = () => {
   const navigate=useNavigate()
@@ -47,8 +49,8 @@ const Dashboard = () => {
           <div className="row g-4 pb-4">
             {session?.map((data,idx)=>{
               return (
-              <div className="col-lg-4 col-md-6">
-                <SummaryCard key={data._id} colors={CARD_BG[idx%CARD_BG.length]} role={data.role} topicsToFocus={data.topicsToFocus || ""} experience={data.experience || "-"} questions={data.questions.length || "-"} description={data.description || "-"} lastUpdated={data.updatedAt?new Date(data.updatedAt).toLocaleDateString("en-GB"):""} onSelect={()=>navigate(`/interview-prep/${data._id}`)} onDelete={()=>setOpenDeleteAlert({open:true,data})}/>
+              <div key={data._id} className="col-lg-4 col-md-6">
+                <SummaryCard colors={CARD_BG[idx%CARD_BG.length]} role={data.role} topicsToFocus={data.topicsToFocus || ""} experience={data.experience} questions={data.questions.length || "-"} description={data.description || "-"} lastUpdated={data.updatedAt?new Date(data.updatedAt).toLocaleDateString("en-GB"):""} onSelect={()=>navigate(`/interview-prep/${data._id}`)} onDelete={()=>setOpenDeleteAlert({open:true,data})}/>
               </div> )
             })}
           </div>
@@ -79,6 +81,11 @@ const Dashboard = () => {
             <span>Add New</span>
           </button>
         </div>
+        <Modal isOpen={openCreateModal} onClose={()=>setOpenCreateModal(false)} hideHeader>
+          <div>
+            <CreateSessionForm/>
+          </div>
+        </Modal>
       </DashboardLayout>
     </>
   )

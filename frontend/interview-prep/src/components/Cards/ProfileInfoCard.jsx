@@ -15,7 +15,7 @@ const ProfileInfoCard = () => {
     return user && (
         <>
             <div className="d-flex align-items-center">
-                <img src={user.profileImageUrl} alt="Profile" className="rounded-circle me-3" style={{width: "44px",height: "44px",objectFit: "cover",backgroundColor: "#d1d5db"}}/>
+                <img src={user.profileImageUrl || null} alt="Profile" className="rounded-circle me-3" style={{width: "44px",height: "44px",objectFit: "cover",backgroundColor: "#d1d5db"}}/>
                 <div>
                     <div className="fw-bold text-dark"style={{fontSize: "15px",lineHeight: "1"}}>
                         {user.name || ""}

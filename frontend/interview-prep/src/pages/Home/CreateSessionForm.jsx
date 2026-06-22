@@ -36,42 +36,43 @@ const CreateSessionForm = () => {
         setLoading(true)
     
 
-    try{
-        const token=localStorage.getItem('token')
-        const AIResponse=await axios.post("http://localhost:8000/ai/generate-questions",{
-            role:formData.role,
-            experience:formData.experience,
-            topicsToFocus:formData.topicsToFocus,
-            numberOfQuestions:10
-        },{
-            headers:{
-                Authorization:`Bearer ${token}`
-            }
-        })
+        try{
+            const token=localStorage.getItem('token')
+            const AIResponse=await axios.post("http://localhost:8000/ai/generate-questions",{
+                role:formData.role,
+                experience:formData.experience,
+                topicsToFocus:formData.topicsToFocus,
+                numberOfQuestions:10
+            },{
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            })
 
-        const generatedQuestions=AIResponse.data
-        
-        const response=await axios.post("http://localhost:8000/sessions/create",{
-            ...formData,questions:generatedQuestions
-        },{
-            headers:{
-                Authorization:`Bearer ${token}`
+            const generatedQuestions=AIResponse.data
+            
+            const response=await axios.post("http://localhost:8000/sessions/create",{
+                ...formData,questions:generatedQuestions
+            },{
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            })
+            console.log(response)
+            if(response && response.data.session._id){
+                navigate(`/interview-prep/${response.data.session._id}`)
             }
-        })
-        if(response && response.data.session._id){
-            navigate(`/interview-prep/${response.data.session._id}`)
+        }catch(err){
+            if(err.response && err.response.data.message){
+                setError(err.response.data.message)
+            }
+            else{
+                setError("Something went wrong. Please try again")
+            }
+        }finally{
+            setLoading(false)
         }
-    }catch(err){
-        if(err.response && err.response.data.message){
-            setError(err.response.data.message)
-        }
-        else{
-            setError("Something went wrong. Please try again")
-        }
-    }finally{
-        setLoading(false)
     }
-}
 
 
   return (

@@ -61,14 +61,14 @@ const SignUp = ({ setCurrentPage }) => {
     try{
       if(userData.profilePic){
         const imgUploadResponse=await uploadImage(userData.profilePic)
-        profilePicURL=imgUploadResponse.imageUrl || ""
+        profilePicURL=imgUploadResponse.imageUrl || null
       } 
 
       const response=await axios.post("http://localhost:8000/auth/register",{
         name:userData.username,
         email:userData.email,
         password:userData.password,
-        profilePic:profilePicURL
+        profileImageUrl:profilePicURL
       })
 
       const {token}=response.data
